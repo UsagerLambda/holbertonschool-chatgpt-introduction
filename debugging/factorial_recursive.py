@@ -3,7 +3,7 @@ import sys
 
 def factorial(n):
     """
-    Function description:
+    Function Description:
     Calculate the factorial of a number using recursion.
     
     Parameters:
@@ -17,6 +17,7 @@ def factorial(n):
     else:
         return n * factorial(n-1)
 
+# Calculate the factorial of the number provided as a command-line argument
 f = factorial(int(sys.argv[1]))
 print(f)
 
