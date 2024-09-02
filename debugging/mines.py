@@ -56,7 +56,7 @@ class Minesweeper:
         total_non_mines = sum(
             1 for y in range(self.height)
             for x in range(self.width)
-            if (y * self.width + x) not in self.mines
+            if (y * self.width + x) not in self.mines and not self.revealed[y][x]
         )
 
         revealed_count = 0  # Initialiser le compteur de cases révélées
