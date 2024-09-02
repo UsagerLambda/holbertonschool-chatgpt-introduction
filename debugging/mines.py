@@ -50,7 +50,7 @@ class Minesweeper:
                     if 0 <= nx < self.width and 0 <= ny < self.height and not self.revealed[ny][nx]:
                         self.reveal(nx, ny)
         return True
-    
+
     def check_win(self):
         for y in range(self.height):
             for x in range(self.width):
