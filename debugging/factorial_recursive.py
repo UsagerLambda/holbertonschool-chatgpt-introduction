@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 
+
 def factorial(n):
     """
     Function Description:
@@ -17,6 +18,7 @@ def factorial(n):
         return 1
     else:
         return n * factorial(n-1)
+
 
 # Calculate the factorial of the number provided as a command-line argument
 f = factorial(int(sys.argv[1]))
