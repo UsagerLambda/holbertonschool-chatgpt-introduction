@@ -5,11 +5,11 @@ def factorial(n):
     """
     Function Description:
     Calculate the factorial of a number using recursion.
-    
+
     Parameters:
     - n (int): The number for which to calculate the factorial.
     Must be a non-negative integer.
-    
+
     Returns:
     int: The factorial of the number 'n'.
     """
