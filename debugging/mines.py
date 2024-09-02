@@ -51,7 +51,7 @@ class Minesweeper:
                         self.reveal(nx, ny)
         return True
 
-    def check_win(self):
+    def check_victory(self):
         for y in range(self.height):
             for x in range(self.width):
                 if (y * self.width + x) not in self.mines and not self.revealed[y][x]:
@@ -68,7 +68,7 @@ class Minesweeper:
                     self.print_board(reveal=True)
                     print("Game Over! You hit a mine.")
                     break
-                if self.check_win():
+                if self.check_victory():
                     self.print_board(reveal=True)
                     print("Congratulations! You've won the game.")
                     break
