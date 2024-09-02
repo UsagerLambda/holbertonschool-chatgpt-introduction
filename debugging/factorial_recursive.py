@@ -16,9 +16,6 @@ def factorial(n):
     else:
         return n * factorial(n-1)
 
-# Get the factorial of the number passed as a command line argument
 f = factorial(int(sys.argv[1]))
-
-# Print the result
 print(f)
 

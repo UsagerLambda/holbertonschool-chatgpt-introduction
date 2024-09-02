@@ -21,28 +21,22 @@ class Checkbook:
 def main():
     cb = Checkbook()
     while True:
-        action = input("What would you like to do? (deposit, withdraw, balance, exit): ").lower()
-        if action == 'exit':
+        action = input("What would you like to do? (deposit, withdraw, balance, exit): ")
+        if action.lower() == 'exit':
             break
-        elif action == 'deposit':
+        elif action.lower() == 'deposit':
             try:
                 amount = float(input("Enter the amount to deposit: $"))
-                if amount < 0:
-                    print("The deposit amount cannot be negative.")
-                else:
-                    cb.deposit(amount)
+                cb.deposit(amount)
             except ValueError:
-                print("Invalid input. Please enter a valid numeric value.")
-        elif action == 'withdraw':
+                print("Invalid amount. Please enter a numeric value.")
+        elif action.lower() == 'withdraw':
             try:
                 amount = float(input("Enter the amount to withdraw: $"))
-                if amount < 0:
-                    print("The withdrawal amount cannot be negative.")
-                else:
-                    cb.withdraw(amount)
+                cb.withdraw(amount)
             except ValueError:
-                print("Invalid input. Please enter a valid numeric value.")
-        elif action == 'balance':
+                print("Invalid amount. Please enter a numeric value.")
+        elif action.lower() == 'balance':
             cb.get_balance()
         else:
             print("Invalid command. Please try again.")
