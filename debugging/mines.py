@@ -15,9 +15,9 @@ class Minesweeper:
 
     def print_board(self, reveal=False):
         clear_screen()
-        print('  ' + ' '.join(str(i) for i in range(self.width)))
+        print('   ' + ' '.join(str(i) for i in range(self.width)))
         for y in range(self.height):
-            print(y, end=' ')
+            print(f'{y:2}', end=' ')
             for x in range(self.width):
                 if reveal or self.revealed[y][x]:
                     if (y * self.width + x) in self.mines:
@@ -33,6 +33,8 @@ class Minesweeper:
         count = 0
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
+                if dx == 0 and dy == 0:
+                    continue  # Ignore la cellule elle-même
                 nx, ny = x + dx, y + dy
                 if 0 <= nx < self.width and 0 <= ny < self.height:
                     if (ny * self.width + nx) in self.mines:
@@ -40,23 +42,38 @@ class Minesweeper:
         return count
 
     def reveal(self, x, y):
+        if not (0 <= x < self.width and 0 <= y < self.height):
+            return True  # Les coordonnées en dehors du plateau sont ignorées
+        if self.revealed[y][x]:
+            return True  # La cellule est déjà révélée
         if (y * self.width + x) in self.mines:
-            return False
+            return False  # Mine découverte
         self.revealed[y][x] = True
         if self.count_mines_nearby(x, y) == 0:
-            for dx in [-1, 0, 1]:
-                for dy in [-1, 0, 1]:
-                    nx, ny = x + dx, y + dy
-                    if 0 <= nx < self.width and 0 <= ny < self.height and not self.revealed[ny][nx]:
-                        self.reveal(nx, ny)
+            # Utilisation d'une pile pour éviter la récursion profonde
+            stack = [(x, y)]
+            while stack:
+                cx, cy = stack.pop()
+                for dx in [-1, 0, 1]:
+                    for dy in [-1, 0, 1]:
+                        if dx == 0 and dy == 0:
+                            continue
+                        nx, ny = cx + dx, cy + dy
+                        if 0 <= nx < self.width and 0 <= ny < self.height and not self.revealed[ny][nx]:
+                            if (ny * self.width + nx) not in self.mines:
+                                self.revealed[ny][nx] = True
+                                if self.count_mines_nearby(nx, ny) == 0:
+                                    stack.append((nx, ny))
         return True
 
-    def check_victory(self):
+    def check_win(self):
+        revealed_non_mines = 0
+        total_non_mines = self.width * self.height - len(self.mines)
         for y in range(self.height):
             for x in range(self.width):
-                if (y * self.width + x) not in self.mines and not self.revealed[y][x]:
-                    return False
-        return True
+                if self.revealed[y][x] and (y * self.width + x) not in self.mines:
+                    revealed_non_mines += 1
+        return revealed_non_mines == total_non_mines
 
     def play(self):
         while True:
@@ -64,13 +81,16 @@ class Minesweeper:
             try:
                 x = int(input("Enter x coordinate: "))
                 y = int(input("Enter y coordinate: "))
+                if not (0 <= x < self.width and 0 <= y < self.height):
+                    print("Coordinates out of bounds. Please try again.")
+                    continue
                 if not self.reveal(x, y):
                     self.print_board(reveal=True)
                     print("Game Over! You hit a mine.")
                     break
-                if self.check_victory():
+                if self.check_win():
                     self.print_board(reveal=True)
-                    print("Congratulations! You've won the game.")
+                    print("Congratulations! You've cleared the minefield.")
                     break
             except ValueError:
                 print("Invalid input. Please enter numbers only.")
