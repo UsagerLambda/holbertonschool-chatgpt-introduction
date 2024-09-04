@@ -1,51 +1,52 @@
+#!/usr/bin/env python3
 class Checkbook:
     def __init__(self):
         self.balance = 0.0
 
     def deposit(self, amount):
-        if amount <= 0:
-            print("Le montant doit être positif.")
-            return
         self.balance += amount
-        print("Déposé ${:.2f}".format(amount))
-        print("Solde actuel: ${:.2f}".format(self.balance))
+        print("Deposited ${:.2f}".format(amount))
+        print("\033[92mCurrent Balance: ${:.2f}\033[0m".format(self.balance))
 
     def withdraw(self, amount):
-        if amount <= 0:
-            print("Le montant doit être positif.")
-            return
         if amount > self.balance:
-            print("Fonds insuffisants pour effectuer le retrait.")
+            print("\033[93mInsufficient funds to complete the withdrawal.\033[0m")
         else:
             self.balance -= amount
-            print("Retiré ${:.2f}".format(amount))
-            print("Solde actuel: ${:.2f}".format(self.balance))
+            print("Withdrew ${:.2f}".format(amount))
+            print("\033[92mCurrent Balance: ${:.2f}\033[0m".format(self.balance))
 
     def get_balance(self):
-        print("Solde actuel: ${:.2f}".format(self.balance))
+        print("\033[92mCurrent Balance: ${:.2f}\033[0m".format(self.balance))
 
 def main():
     cb = Checkbook()
     while True:
-        action = input("Que souhaitez-vous faire ? (déposer, retirer, solde, quitter) : ").strip().lower()
-        if action == 'quitter':
+        action = input("What would you like to do? (deposit, withdraw, balance, exit): ").lower()
+        if action == 'exit':
             break
-        elif action == 'déposer':
+        elif action == 'deposit':
             try:
-                amount = float(input("Entrez le montant à déposer : $"))
-                cb.deposit(amount)
+                amount = float(input("Enter the amount to deposit: $"))
+                if amount <= 0:
+                    print("\033[93mPlease enter a positive amount.\033[0m")
+                else:
+                    cb.deposit(amount)
             except ValueError:
-                print("Veuillez entrer un montant valide.")
-        elif action == 'retirer':
+                print("\033[93mInvalid input. Please enter a numeric value.\033[0m")
+        elif action == 'withdraw':
             try:
-                amount = float(input("Entrez le montant à retirer : $"))
-                cb.withdraw(amount)
+                amount = float(input("Enter the amount to withdraw: $"))
+                if amount <= 0:
+                    print("\033[93mPlease enter a positive amount.\033[0m")
+                else:
+                    cb.withdraw(amount)
             except ValueError:
-                print("Veuillez entrer un montant valide.")
-        elif action == 'solde':
+                print("\033[93mInvalid input. Please enter a numeric value.\033[0m")
+        elif action == 'balance':
             cb.get_balance()
         else:
-            print("Commande invalide. Veuillez réessayer.")
+            print("\033[93mInvalid command. Please try again.\033[0m")
 
 if __name__ == "__main__":
     main()
