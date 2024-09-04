@@ -6,7 +6,7 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 class Minesweeper:
-    def __init__(self, width=3, height=3, mines=3):
+    def __init__(self, width=10, height=10, mines=10):
         self.width = width
         self.height = height
         self.mines = set(random.sample(range(width * height), mines))
